@@ -9,10 +9,10 @@ export default async function handler(req, res) {
     ? (process.env.ACP_DAEMON_TOKEN_DEV || '')
     : (process.env.ACP_DAEMON_TOKEN_MAIN || '');
 
-  const gh = `https://api.github.com/repos/Raza-learner/Runmote/contents/scripts/install.ps1?ref=${branch}`;
-  const resp = await fetch(gh, {
-    headers: { Accept: 'application/vnd.github.raw', 'User-Agent': 'runmote-vercel' },
-  });
+  const gh = `https://raw.githubusercontent.com/Raza-learner/Runmote/${branch}/scripts/install.ps1`;
+  const headers = { 'User-Agent': 'runmote-vercel' };
+  if (process.env.GITHUB_TOKEN) headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const resp = await fetch(gh, { headers });
   if (!resp.ok) {
     const t = await resp.text();
     return res.status(resp.status).send(`Failed to fetch install.ps1: ${resp.status}\n${t}`);
