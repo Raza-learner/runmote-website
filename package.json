@@ -1,0 +1,22 @@
+{
+  "name": "runmote-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.0",
+    "animejs": "^3.2.2",
+    "lenis": "^1.1.18",
+    "countup.js": "^2.8.0",
+    "chart.js": "^4.4.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

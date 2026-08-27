@@ -1,0 +1,39 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = 'Runmote — Run any ACP agent from your phone', description = 'Run any AI coding agent on your PC from your phone via QR code or 8-digit pairing. No SSH. No VPN. Works on iOS, Android, Linux, macOS, Windows.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://runmote.dev" />
+    <meta name="theme-color" content="#070A14" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { initScroll } from '../scripts/lenis.ts';
+      import { initReveals } from '../scripts/anime-scroll.ts';
+      import { initStats } from '../scripts/stats.ts';
+      initScroll();
+      initReveals();
+      initStats();
+    </script>
+  </body>
+</html>
+<style is:global>
+  @import '../styles/global.css';
+</style>
