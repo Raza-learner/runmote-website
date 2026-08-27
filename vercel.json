@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "astro",
+  "rewrites": [
+    { "source": "/install.sh", "destination": "/api/install" },
+    { "source": "/install.sh/dev", "destination": "/api/install?dev=1" },
+    { "source": "/install", "destination": "/api/install" },
+    { "source": "/install/dev", "destination": "/api/install?dev=1" },
+    { "source": "/install.ps1", "destination": "/api/install-ps1" },
+    { "source": "/install.ps1/dev", "destination": "/api/install-ps1?dev=1" }
+  ]
+}
