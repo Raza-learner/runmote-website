@@ -3,107 +3,68 @@ import anime from 'animejs';
 export function initPhone() {
   if (typeof window === 'undefined') return;
   const phone = document.getElementById('phone');
-  const cards = document.querySelectorAll<HTMLElement>('.agent-card');
+  const cards = document.querySelectorAll<HTMLElement>('#phone-cards .agent-card');
   const check = document.getElementById('check-opencode');
-  const dot = document.getElementById('dot-main');
-  const connected = document.getElementById('phone-connected');
+  const dotMain = document.getElementById('dot-main');
   if (!phone || cards.length === 0) return;
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cards.forEach((c) => { c.style.opacity = '1'; c.style.transform = 'none'; });
+    if (check) check.style.transform = 'scale(1)';
+    return;
+  }
 
-  // initial state
+  // Set initial hidden state — only once, no scale jitter
   cards.forEach((c) => {
     c.style.opacity = '0';
-    c.style.transform = 'translateY(12px) scale(0.98)';
+    c.style.transform = 'translateY(10px)';
   });
-  if (check) {
-    check.style.transform = 'scale(0)';
-  }
+  if (check) check.style.opacity = '0';
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
-      if (e.isIntersecting) {
-        // cards stagger in
+      if (!e.isIntersecting) return;
+
+      // 1) Cards: realistic stagger as if loading from API — subtle y only, no scale
+      anime({
+        targets: '#phone-cards .agent-card',
+        translateY: [10, 0],
+        opacity: [0, 1],
+        duration: 480,
+        delay: anime.stagger(100, { start: 80 }),
+        easing: 'easeOutCubic',
+      });
+
+      // 2) Check: just appears with small pop on the already-selected Opencode — stays there
+      if (check) {
         anime({
-          targets: '#phone-cards .agent-card',
-          translateY: [12, 0],
-          scale: [0.98, 1],
+          targets: check,
+          scale: [0.6, 1],
           opacity: [0, 1],
-          duration: 520,
-          delay: anime.stagger(90, { start: 120 }),
-          easing: 'easeOutCubic',
+          duration: 360,
+          delay: 520,
+          easing: 'easeOutBack',
         });
+      }
 
-        // check pop after cards
-        if (check) {
-          anime({
-            targets: check,
-            scale: [0, 1],
-            duration: 420,
-            delay: 620,
-            easing: 'easeOutBack',
-          });
-        }
-
-        // dot pulse loop
-        if (dot) {
-          anime({
-            targets: dot,
-            scale: [1, 1.45, 1],
-            opacity: [1, 0.7, 1],
-            duration: 1200,
-            loop: true,
-            easing: 'easeInOutSine',
-            delay: 800,
-          });
-        }
-
-        // subtle selection cycle — move selected class every 2.6s to showcase all agents
-        const cycle = () => {
-          const order = ['card-opencode', 'card-cursor', 'card-claude'];
-          let idx = 0;
-          setInterval(() => {
-            idx = (idx + 1) % order.length;
-            cards.forEach((c) => c.classList.remove('selected'));
-            const next = document.getElementById(order[idx]);
-            if (next) {
-              next.classList.add('selected');
-              anime({
-                targets: next,
-                scale: [0.98, 1],
-                duration: 300,
-                easing: 'easeOutCubic',
-              });
-            }
-            // move check to new card visually
-            if (check && next) {
-              const action = next.querySelector('.agent-action');
-              if (action && !action.contains(check)) {
-                // animate check moving
-                anime({ targets: check, scale: [1, 0], duration: 160, easing: 'easeInQuad', complete: () => {
-                  action.prepend(check);
-                  anime({ targets: check, scale: [0, 1], duration: 260, easing: 'easeOutBack' });
-                }});
-              }
-            }
-          }, 2600);
-        };
-        setTimeout(cycle, 1800);
-
-        // bottom nav active hint pulse
+      // 3) Dots: very subtle breathing — only main "Connected" dot, not every card
+      //    Matches screenshot: solid green, no aggressive pulsing
+      if (dotMain) {
         anime({
-          targets: '.phone-bottom .nav-item.active .pill',
-          scale: [1, 1.04, 1],
-          duration: 1600,
+          targets: dotMain,
+          scale: [1, 1.15, 1],
+          duration: 2200,
           loop: true,
           easing: 'easeInOutSine',
-          delay: 1000,
+          delay: 900,
         });
-
-        io.disconnect();
       }
+
+      // 4) Bottom nav: no pulse — screenshot is static. Just ensure no animation noise.
+
+      io.disconnect();
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.28, rootMargin: '0px 0px -40px 0px' });
 
   io.observe(phone);
 }
