@@ -16,23 +16,26 @@ const { title = 'Runmote — Run any ACP agent from your phone', description = '
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://runmote.dev" />
-    <meta name="theme-color" content="#FFF7EB" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#F7F4EE" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:image" content="/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
     <slot />
     <script>
       import { initScroll } from '../scripts/lenis.ts';
-      import { initReveals } from '../scripts/anime-scroll.ts';
+      import { initReveals, initPipeline } from '../scripts/anime-scroll.ts';
       import { initStats } from '../scripts/stats.ts';
-      import { initPhone } from '../scripts/phone.ts';
       initScroll();
       initReveals();
+      initPipeline();
       initStats();
-      initPhone();
     </script>
   </body>
 </html>
