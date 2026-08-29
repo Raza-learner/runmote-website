@@ -9,7 +9,6 @@ import Layout from '../layouts/Layout.astro';
       <a class="nav-brand" href="#">
         <img src="/logo.png" alt="Runmote" width="28" height="28" />
         <span>Runmote</span>
-        <span class="tag">ACP · OSS</span>
       </a>
       <nav class="nav-links">
         <a href="#why">Why</a>
@@ -46,8 +45,16 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="reveal" data-delay="160" style="margin-top: var(--space-l)">
-          <span id="install" class="code-pill"><span style="opacity:.55">$</span> curl -fsSL https://runmote.dev/install.sh | bash <button class="copy" data-copy="curl -fsSL https://runmote.dev/install.sh | bash">Copy</button></span>
-          <div style="margin-top: var(--space-xs); color: var(--ink-3); font-size: var(--step--1)">win: <span class="kbd">irm https://runmote.dev/install.ps1 | iex</span> · relay on Render · <a href="https://play.google.com/store/apps/details?id=dev.runmote.app" target="_blank" rel="noreferrer" style="color: var(--ink-3); text-decoration: underline; text-underline-offset: 2px">app on Google Play</a></div>
+          <div class="os-switch" role="tablist" aria-label="Choose your OS">
+            <button class="os-tab" role="tab" aria-selected="true" data-target="panel-unix" id="tab-unix" aria-controls="panel-unix">Linux / macOS</button>
+            <button class="os-tab" role="tab" aria-selected="false" data-target="panel-win" id="tab-win" aria-controls="panel-win" tabindex="-1">Windows</button>
+          </div>
+          <div class="os-panel" id="panel-unix" role="tabpanel" aria-labelledby="tab-unix">
+            <span id="install" class="code-pill"><span style="opacity:.55">$</span> curl -fsSL https://runmote.dev/install.sh | bash <button class="copy" data-copy="curl -fsSL https://runmote.dev/install.sh | bash">Copy</button></span>
+          </div>
+          <div class="os-panel" id="panel-win" role="tabpanel" aria-labelledby="tab-win" hidden>
+            <a class="btn btn-primary" href="https://github.com/Raza-learner/Runmote/releases/download/v0.1.0/Runmote_0.1.0_x64-setup.exe" rel="noreferrer">Download Windows app (.exe)</a>
+          </div>
         </div>
 
         <div class="reveal" data-delay="200" style="margin-top: var(--space-l); display:flex; gap: var(--space-m); flex-wrap:wrap; align-items:center">
@@ -330,6 +337,20 @@ import Layout from '../layouts/Layout.astro';
         const o = (b as HTMLElement).textContent;
         (b as HTMLElement).textContent = 'Copied!';
         setTimeout(() => ((b as HTMLElement).textContent = o), 1100);
+      });
+    });
+
+    document.querySelectorAll('.os-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll<HTMLElement>('.os-tab').forEach((t) => {
+          t.setAttribute('aria-selected', String(t === tab));
+          t.tabIndex = t === tab ? 0 : -1;
+        });
+        const target = tab.dataset.target!;
+        document.querySelectorAll<HTMLElement>('.os-panel').forEach((p) => {
+          p.hidden = p.id !== target;
+          p.setAttribute('aria-hidden', String(p.id !== target));
+        });
       });
     });
   </script>
