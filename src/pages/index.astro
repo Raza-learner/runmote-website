@@ -30,7 +30,7 @@ import Layout from '../layouts/Layout.astro';
           Code from<br/>your phone.
         </h1>
         <p class="lead reveal" data-delay="110" style="margin-top: var(--space-m)">
-          Run any ACP agent on your PC — <strong style="font-weight:600; color: var(--ink)">opencode, Claude Code, Codex, Cursor</strong> — from iOS or Android. Start a session on the bus, resume it from bed. One command. Any network.
+          Run any ACP agent on your PC — <strong style="font-weight:600; color: var(--ink)">opencode, Claude Code, Codex, Cursor</strong> — from your Android phone. Start a session on the bus, resume it from bed. One command. Any network.
         </p>
 
         <div class="reveal" data-delay="140" style="margin-top: var(--space-m)">
@@ -40,7 +40,6 @@ import Layout from '../layouts/Layout.astro';
             <span class="chip">codex</span>
             <span class="chip">cursor</span>
             <span class="chip">copilot</span>
-            <span class="chip">gemini</span>
           </div>
         </div>
 
@@ -208,13 +207,13 @@ import Layout from '../layouts/Layout.astro';
         <li>
           <div>
             <div class="f-title">Any agent that speaks ACP</div>
-            <div class="f-desc">OpenCode, Claude Code, Codex, Cursor, Copilot, Gemini CLI — auto-detected on install.</div>
+            <div class="f-desc">OpenCode, Claude Code, Codex, Cursor, Copilot — auto-detected on install.</div>
           </div>
         </li>
         <li>
           <div>
             <div class="f-title">Native everywhere</div>
-            <div class="f-desc">Flutter iOS/Android on the phone, a Windows desktop app, and a Linux/macOS/Windows daemon.</div>
+            <div class="f-desc">Flutter Android on the phone, a Windows desktop app, and a Linux/macOS/Windows daemon.</div>
           </div>
         </li>
       </ul>
@@ -243,7 +242,6 @@ import Layout from '../layouts/Layout.astro';
             <tr><td class="row-head">Claude Code</td><td class="win">Auto</td><td class="win">Auto</td><td class="win">Auto</td></tr>
             <tr><td class="row-head">Codex</td><td class="win">Auto</td><td class="win">Auto</td><td class="win">Auto</td></tr>
             <tr><td class="row-head">GitHub Copilot</td><td class="win">Auto</td><td class="win">Auto</td><td class="lose">Manual</td></tr>
-            <tr><td class="row-head">Gemini CLI</td><td class="lose">Manual</td><td class="lose">—</td><td class="lose">—</td></tr>
           </tbody>
         </table>
         <p style="margin-top: var(--space-s); color: var(--ink-3); font-size: var(--step--1)">Not auto-detected? Set <span class="kbd">ACP_AGENT_COMMANDS</span> to a JSON array of agent configs.</p>
@@ -306,7 +304,7 @@ import Layout from '../layouts/Layout.astro';
         <details class="faq reveal"><summary>Does my PC need to stay on?<span class="plus">+</span></summary><p>Yes — the daemon runs as a background service (systemd / launchd / Task Scheduler) and idles at near-zero usage. It only spawns an agent when a session is active. If the PC is off, the app shows a disconnected banner until you run <span class="kbd">runmote</span>.</p></details>
         <details class="faq reveal" data-delay="40"><summary>Is this secure?<span class="plus">+</span></summary><p>Both connections are WSS (WebSocket over TLS). Pairing codes are rate-limited (5 tries/IP/min), expire after 15 minutes, and rotate on every daemon start. Session content stays on your machine — the relay only passes traffic and stores session metadata.</p></details>
         <details class="faq reveal" data-delay="80"><summary>Can anyone connect?<span class="plus">+</span></summary><p>No — a fresh 8-digit code is generated each time the daemon starts, and only your terminal shows it. The code rotates on restart, and you can force a new one anytime with <span class="kbd">runmote code</span>.</p></details>
-        <details class="faq reveal" data-delay="120"><summary>iPhone and Android?<span class="plus">+</span></summary><p>Yes — the app is built with Flutter and shipped natively for both. Android is on <a href="https://play.google.com/store/apps/details?id=dev.runmote.app" target="_blank" rel="noreferrer" style="color: var(--ink); text-decoration: underline; text-underline-offset: 2px">Google Play</a> with APKs in the GitHub releases; iOS is available via TestFlight.</p></details>
+        <details class="faq reveal" data-delay="120"><summary>Android app?<span class="plus">+</span></summary><p>The app is built with Flutter and shipped for Android — on <a href="https://play.google.com/store/apps/details?id=dev.runmote.app" target="_blank" rel="noreferrer" style="color: var(--ink); text-decoration: underline; text-underline-offset: 2px">Google Play</a> with APKs in the GitHub releases.</p></details>
         <details class="faq reveal" data-delay="160"><summary>Can I self-host the relay?<span class="plus">+</span></summary><p>Yes — the relay is 100% open source. Run <span class="kbd">docker compose up -d</span>, then set <span class="kbd">ACP_RELAY_URL</span> on the daemon. Pairing QR codes embed your relay's public URL automatically, and there's a LAN-only mode that works without internet via mDNS.</p></details>
         <details class="faq reveal" data-delay="200"><summary>Why does Windows show a SmartScreen warning?<span class="plus">+</span></summary><p>The Windows installer isn't signed by a trusted certificate authority yet, so Windows shows a blue "protected your PC" screen. Click <strong>More info → Run anyway</strong> — the app is open source and fully auditable.</p></details>
       </div>
